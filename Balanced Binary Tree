@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+// 3.1 
+public class Solution {
+    
+    public boolean isBalanced(TreeNode root) {
+        return depth(root) != -1;       
+    }
+    
+    public int depth(TreeNode root)
+    {
+        if(root == null) return 0;
+        int left = depth(root.left);
+        int right = depth(root.right);
+        if(left == -1 || right == -1 || Math.abs(left - right) > 1) return -1;
+        else return Math.max(left, right) + 1;
+    }
+    
+    // 这个方法不好 因为要算2遍 下去算深度一遍，每个节点要看isBalanced 又是一遍
+    // 其实一次算深度就够了 如果左右不balance就return -1 否则return正常高度 就行了
+    // public boolean isBalanced(TreeNode root) {
+    //     if(root == null) return true;
+    //     if(isBalanced(root.left) == false || isBalanced(root.right) == false) return false;
+    //     return Math.abs(depth(root.left) - depth(root.right)) < 2;
+    // }
+    
+    // public int depth(TreeNode root)
+    // {
+    //     if(root == null) return 0;
+    //     return Math.max(depth(root.left), depth(root.right)) + 1;
+    // }
+}
