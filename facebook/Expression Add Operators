@@ -17,7 +17,7 @@ public class Solution {
     }
     
    
-    private void helper(List<String> res, String num, int target, String s, int index, long sum, long preSum) {
+    private void helper(List<String> res, String num, int target, String s, int index, long sum, long pre) {
         if(sum == target && num.length() == index) {
             res.add(s);
             return;
@@ -31,7 +31,7 @@ public class Solution {
                 helper(res, num, target, curStr, i + 1, cur, cur);
             } else {
                 // 乘法
-                helper(res, num, target, s + "*" + curStr, i + 1, (sum - preSum) + preSum * cur, preSum * cur);
+                helper(res, num, target, s + "*" + curStr, i + 1, (sum - pre) + pre * cur, pre * cur);
                 // 加法
                 helper(res, num, target, s + "+" + curStr, i + 1, sum + cur, cur);
                 // 减法
