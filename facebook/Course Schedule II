@@ -1,0 +1,31 @@
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] res = new int[numCourses];
+        if (prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0) return res;
+        int[] indgree = new int[numCourses]; 
+        List[] children = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) children[i] = new ArrayList<Integer>();
+        //写入有向图的next节点
+        for (int i = 0; i < prerequisites.length; i++) {
+            children[prerequisites[i][1]].add(prerequisites[i][0]);
+            indgree[prerequisites[i][0]]++;
+        }
+        Queue<Integer> queue = new LinkedList<Integer>();
+        for(int i = 0; i < indgree.length; i++){
+            if(indgree[i] == 0) queue.add(i);
+        }    
+        int count = 0;
+        while(!queue.isEmpty()) {
+            int cur = queue.poll();
+            res[count] = cur;
+            count++;
+            List<Integer> list = children[cur];
+            for(Integer i : list) {
+                indgree[i]--;
+                if(indgree[i] == 0) queue.offer(i);
+            }
+        
+        }
+        return count == numCourses ? res : new int[0];
+    }
+}
