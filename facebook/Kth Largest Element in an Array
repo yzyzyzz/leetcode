@@ -1,0 +1,33 @@
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+For example,
+Given [3,2,1,5,6,4] and k = 2, return 5.
+
+Note: 
+You may assume k is always valid, 1 ≤ k ≤ array's length.
+
+
+// 3.3
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return 0;
+        return find(nums, nums.length - k, 0, nums.length - 1);
+    }
+    
+    public int find(int[] nums, int k, int l, int r) {
+        // 题目其实说k在l和r之间，不过加这句就是保险，假设没这个前提
+        if(l > r) return -1;
+        int start = l, end = r;
+        int pivot = nums[start];
+        while(start < end) {
+            while(start < end && nums[end] >= pivot) end--;
+            nums[start] = nums[end];
+            while(start < end && nums[start] < pivot) start++;
+            nums[end] = nums[start];
+        }
+        nums[start] = pivot;
+        if(start == k) return nums[k];
+        else if(start < k) return find(nums, k, start + 1, r);
+        else return find(nums, k, l, start - 1);
+    }
+}
