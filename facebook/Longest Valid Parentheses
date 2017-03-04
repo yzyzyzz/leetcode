@@ -1,0 +1,50 @@
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+
+
+// 3.4
+public class Solution {
+    
+    // 正确，但超时
+    // public int longestValidParentheses(String s) {
+    //     Stack<Integer> left = new Stack<Integer>();
+    //     int max = 0, matchBegin = 0;
+    //     for (int i = 0; i < s.length(); i++) {
+    //         if (ch = s.charAt(i) == '(') left.push(i);
+    //         else {
+    //             if (left.isEmpty()) {
+    //                 matchBegin = i + 1;
+    //             } else {
+    //                 left.pop();
+    //                 if (left.isEmpty()) {
+    //                     max = Math.max(max, i - matchBegin + 1);
+    //                 } else {
+    //                     max = Math.max(max, i - left.peek());
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return max;
+    // }
+    
+    public int longestValidParentheses(String s) {
+        int[] dp = new int[s.length()];
+        int maxLen = 0;
+        for(int i = s.length()-2; i >=0; i--){
+            if(s.charAt(i)=='('){
+                int end = i + dp[i+1] + 1;
+                if(end < s.length() && s.charAt(end)==')'){
+                    dp[i] = dp[i+1] + 2;
+                    if(end + 1 < s.length()){
+                        dp[i] += dp[end + 1];
+                    }
+                }
+            }
+            maxLen = Math.max(maxLen, dp[i]);
+        }
+        return maxLen;
+    }
+}
