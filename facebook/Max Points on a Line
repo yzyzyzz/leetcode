@@ -1,0 +1,45 @@
+Given n points on a 2D plane, find the maximum number of points that lie on the same straight line
+
+// 3.5
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+public class Solution {
+    public int maxPoints(Point[] points) {
+    	if(points == null || points.length == 0) return 0;
+        int max = 0;
+        HashMap<Double, Integer> map = new HashMap<>();
+        for(int i=0;i<points.length-1;i++)
+        {
+            map.clear();
+            int samePoint = 0, localMax = 0;
+            for(int j = i + 1; j < points.length; j++)
+            {
+                int x = points[j].x - points[i].x;
+                int y = points[j].y - points[i].y;
+                if(x == 0 && y== 0) {
+                    samePoint++;
+                    continue;
+                }
+                double ratio = findRatio(x,y);
+                if(!map.containsKey(ratio)) map.put(ratio, 1);
+                else map.put(ratio, map.get(ratio) + 1);
+                localMax = Math.max(localMax, map.get(ratio));
+            }
+            max = Math.max(max, localMax + samePoint);
+        }
+        return max + 1;
+    }
+    
+    private Double findRatio(int x, int y)
+    {
+        if(y == 0) return Double.MAX_VALUE;
+        else return (double) x / (double) y + 0.0;
+    }
+}
