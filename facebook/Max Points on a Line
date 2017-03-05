@@ -15,14 +15,14 @@ public class Solution {
     	if(points == null || points.length == 0) return 0;
         int max = 0;
         HashMap<Double, Integer> map = new HashMap<>();
-        for(int i=0;i<points.length-1;i++)
+        for(int i = 0; i < points.length - 1; i++)
         {
             map.clear();
             int samePoint = 0, localMax = 0;
             for(int j = i + 1; j < points.length; j++)
             {
-                int x = points[j].x - points[i].x;
-                int y = points[j].y - points[i].y;
+                double x = points[j].x - points[i].x;
+                double y = points[j].y - points[i].y;
                 if(x == 0 && y== 0) {
                     samePoint++;
                     continue;
@@ -37,9 +37,9 @@ public class Solution {
         return max + 1;
     }
     
-    private Double findRatio(int x, int y)
+    private Double findRatio(double x, double y)
     {
-        if(y == 0) return Double.MAX_VALUE;
-        else return (double) x / (double) y + 0.0;
+        if(y == 0.0) return Double.MAX_VALUE;
+        else return x / y + 0.0;
     }
 }
