@@ -1,0 +1,38 @@
+   _______________28_______________
+  /                                \
+  4____                        ____69
+       \                      /
+      __8__                __56__
+     /     \              /      \
+   __7     12__        __34    __27__
+  /            \      /       /      \
+  5_          _13    _2      _3      39
+    \        /      /       /
+     6      11     10       9
+     
+The below code prints the correct output of: 28, 4, 8, 7, 5, 6, 11, 10, 9, 39, 27, 56, 69.
+
+
+// 先打左子树Boundary 然后是右子树Boundary
+void printLeftEdges(BinaryTree *p, bool print) {
+  if (!p) return;
+  if (print || (!p->left && !p->right))
+    cout << p->data << " ";
+  printLeftEdges(p->left, print);
+  printLeftEdges(p->right, (print && !p->left ? true : false));
+}
+
+void printRightEdges(BinaryTree *p, bool print) {
+  if (!p) return;
+  printRightEdges(p->left, (print && !p->right ? true : false));
+  printRightEdges(p->right, print);
+  if (print || (!p->left && !p->right))
+    cout << p->data << " ";
+}
+
+void printOuterEdges(BinaryTree *root) {
+  if (!root) return;
+  cout << root->data << " ";
+  printLeftEdges(root->left, true);
+  printRightEdges(root->right, true);
+}
