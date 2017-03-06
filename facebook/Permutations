@@ -28,7 +28,7 @@ public class Solution {
             return;
         }
         for(int i = 0; i < nums.length; i++) {
-            if(set.contains(nums[i])) continue;
+            if(set.contains(i)) continue;
             set.add(i);
             list.add(nums[i]);
             permute(res, list, nums, set);
