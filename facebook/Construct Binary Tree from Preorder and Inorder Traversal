@@ -22,7 +22,7 @@ public class Solution {
         return build(preorder, 0, inorder.length - 1);
     }
     
-    public TreeNode build(int[] preorder, int[] inorder, int start, int end) {
+    public TreeNode build(int[] preorder, int start, int end) {
         if(start > end || preStart >= preorder.length) return null;
         TreeNode root = new TreeNode(preorder[preStart]);  
         int mid = map.get(preorder[preStart]);
