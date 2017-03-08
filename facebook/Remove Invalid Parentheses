@@ -7,7 +7,7 @@ Examples:
 "(a)())()" -> ["(a)()()", "(a())()"]
 ")(" -> [""]
 
-// 3.8
+// 3.8 butaidong https://discuss.leetcode.com/topic/34875/easy-short-concise-and-fast-java-dfs-3-ms-solution
 public class Solution {
     public List<String> removeInvalidParentheses(String s) {
         List<String> result = new ArrayList<String>();
