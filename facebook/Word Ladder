@@ -40,7 +40,6 @@ public class Solution {
         for (int i = 0; i < word.length(); i++) {
             char[] chars = word.toCharArray();
             for (char c = 'a'; c <= 'z'; c++) {
-                if (c == chars[i]) continue;
                 chars[i] = c;
                 String nextWord = new String(chars);
                 if (dict.contains(nextWord)) nextWords.add(nextWord);
