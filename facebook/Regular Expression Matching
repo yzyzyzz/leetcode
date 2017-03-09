@@ -18,24 +18,20 @@ isMatch("aab", "c*a*b") → true
 // 3.9
 public class Solution {
     public boolean isMatch(String s, String p) {
-        if (p.length() == 0) return s.length() == 0;
-        if (p.length() == 1 || p.charAt(1) != '*') {
-            if (s.length() > 0 && (p.charAt(0) == s.charAt(0)
-                    || p.charAt(0) == '.')) {
-                return isMatch(s.substring(1, s.length()),
-                        p.substring(1, p.length()));
-            } else {
-                return false;
-            }
+        if(p.length() == 0) return s.length() == 0;
+        else if(p.length() == 1 || p.charAt(1) != '*') {
+            if(s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) 
+                return isMatch(s.substring(1), p.substring(1));
+            return false;    
         } else {
+            // p一定是X*这种类型
             //  s:  abc  aac  
             //  p:  a*
-            //  第一种情况 先把a*删掉 因为*可以表示0个 然后看a*后面和s是不是匹配
-            if (isMatch(s, p.substring(2, p.length()))) return true;
             
-            //  然后 第二种情况 从s开始 等于a的一个一个删 然后匹配 比如acc  先删第一个变成ac 然后再删变成c
+            //  第一种情况 先把a*删掉 因为*可以表示0个 然后看a*后面和s是不是匹配
+            if(isMatch(s, p.substring(2))) return true;
             int i = 0;
-            while (i < s.length() && (p.charAt(0) == s.charAt(i) || p.charAt(0) == '.')) {
+            while(i < s.length() && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
                 if (isMatch(s.substring(i + 1), p.substring(2, p.length()))) {
                     return true;
                 }
