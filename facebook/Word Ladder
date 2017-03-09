@@ -1,22 +1,9 @@
-Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
-
-Only one letter can be changed at a time.
-Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
-For example,
-
-Given:
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log","cog"]
-As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
-return its length 5.
-
-Note:
-Return 0 if there is no such transformation sequence.
-All words have the same length.
-All words contain only lowercase alphabetic characters.
-You may assume no duplicates in the word list.
-You may assume beginWord and endWord are non-empty and are not the same.
+// 这个题有个问题，就是leetcode和lintcode的判定条件不一样，比如下面
+// start = "hit"
+// end = "cog"
+// dict = ["hot","dot","dog","lot","log"]
+// 在lintcode里成立，在leetcode里错了，因为leetcode的要求是transfer的下个字符必须在dict离， 而cog没在dict里，那么就不能被transfer算作nextword
+// 唯一的不同在，生成完nextWord后，是先判定nextWord在不在dict里，还是可以直接和endWord相比
 
 public class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
