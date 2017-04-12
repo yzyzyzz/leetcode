@@ -16,8 +16,7 @@ return the root of the binary tree [4,5,2,#,#,3,1].
 
 public class Solution {
     public TreeNode upsideDownBinaryTree(TreeNode root) {
-        if (root == null)  
-            return null;  
+        if (root == null)  return null;  
         TreeNode parent = root, left = root.left, right = root.right;  
         if (left != null) {  
             TreeNode res = upsideDownBinaryTree(left);  
@@ -28,5 +27,16 @@ public class Solution {
         return root;  
     }
 }
+
+TreeNode parent = null, right = null;  
+        while (root != null) {  
+            TreeNode left = root.left;  
+            root.left = right;  
+            right = root.right;  
+            root.right = parent;  
+            parent = root;  
+            root = left;  
+        }  
+        return parent;
    
    
