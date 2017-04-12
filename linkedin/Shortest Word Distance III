@@ -14,3 +14,26 @@ Note:
 You may assume word1 and word2 are both in the list.
 
 
+public class Solution {
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        int idx = -1, idy = -1, min = Integer.MAX_VALUE;
+        for(int i = 0; i < words.length; i++) {
+            if(word1.equals(word2)){
+                if(words[i].equals(word1)) {
+                    idy = idx;
+                    idx = i;
+                    if(idy != -1) min = Math.min(min, idx - idy);
+                }
+            } else {
+                if(words[i].equals(word1)) {
+                    idx = i;
+                    if(idy != -1) min = Math.min(min, idx - idy);
+                } else if(words[i].equals(word2)) {
+                    idy = i;
+                    if(idx != -1) min = Math.min(min, idy - idx);
+                }
+            }
+        }
+        return min;
+    }
+}
