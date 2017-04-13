@@ -1,0 +1,45 @@
+public class Solution {
+    /**
+     * @param s the string that represents a number
+     * @return whether the string is a valid number
+     */
+    public boolean isNumber(String s) {
+        // Write your code here
+        
+        // reference: https://segmentfault.com/a/1190000004487109
+        
+        // 1.remove space
+        s = s.trim();
+        
+        // 2. 'e'  can't be first or last, string can't be just "." 
+        if (s == null || s.equals(".") ||
+           (s.length() > 0 && s.charAt(s.length() - 1) == 'e') ||
+           (s.length() > 0 && s.charAt(0) == 'e')) 
+            return false;
+    
+        // 3. strs should be 1 or 2 (has 1 e or didnt have)
+        String[] strs = s.split("e");
+        if (strs.length > 2) return false;
+        
+        // first part can be int or float, so dot = false
+        // second part (if have) must be int, so dot = true (so helper can be reused)
+        boolean res = helper(strs[0], false);
+        if (strs.length == 2) res = res && helper(strs[1], true);
+        return res;
+    }
+    public boolean helper(String s, boolean hasDot) {
+        if (s.length() > 0 && (s.charAt(0) == '+' || s.charAt(0) == '-')) s = s.substring(1);
+        char[] ch = s.toCharArray();
+        if (ch.length == 0) return false;
+        for (int i =  0; i < ch.length; i++) 
+        {
+            if (ch[i] == '.') 
+            {
+                if (hasDot) return false;
+                hasDot = true;
+            }
+            else if (!(ch[i] >= '0' && ch[i] <= '9')) return false;
+        }
+        return true;
+    }
+}
