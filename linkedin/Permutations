@@ -14,12 +14,12 @@ public class Solution {
             return;
         }
         for(int i = 0; i < nums.length; i++) {
-            if(set.contains(nums[i])) continue;
-            set.add(nums[i]);
+            if(set.contains(i)) continue;
+            set.add(i);
             list.add(nums[i]);
             permute(nums, res, list, set);
             list.remove(list.size() - 1);
-            set.remove(nums[i]);
+            set.remove(i);
         }
     }
 }
