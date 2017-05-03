@@ -1,0 +1,132 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+ // 这个里面某些list里的order可能不对 需要根据level排序 把level wrapper进去
+Output:
+[[4],[9,5],[3,0,1],[2,8],[7]]
+Expected:
+[[4],[9,5],[3,0,1],[8,2],[7]]
+ 
+public class Solution {
+    // DFS
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<Integer> middle = new ArrayList<Integer>();
+        List<List<Integer>> left = new ArrayList<List<Integer>>();
+        List<List<Integer>> right = new ArrayList<List<Integer>>();
+        if(root == null) return left;
+        dfs(root, left, right, middle, 0);
+        Collections.reverse(left);
+        left.add(middle);
+        left.addAll(right);
+        return left;
+    }
+    
+    public void dfs(TreeNode root, List<List<Integer>> left, List<List<Integer>> right, List<Integer> middle, int vertical) {
+        if(root == null) return;
+        List<Integer> list;
+        if(vertical == 0) {
+            list = middle;
+        } else if(vertical > 0) {
+            if(right.size() < vertical) right.add(new ArrayList<Integer>());
+            list = right.get(vertical - 1);
+        } else {
+            int index = vertical * -1;
+            if(left.size() < index) left.add(new ArrayList<Integer>());
+            list = left.get(index - 1);
+        }
+        list.add(root.val);
+        dfs(root.left, left, right, middle, vertical - 1);
+        dfs(root.right, left, right, middle, vertical + 1);
+    }
+}
+    
+    // BFS
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+    List<List<Integer>> result = new ArrayList<>();
+    if (root == null) {
+        return result;
+    }
+    HashMap<Integer, List<Integer>> colToVertical = new HashMap<>();
+    HashMap<TreeNode, Integer> nodeToCol = new HashMap<>();
+    Queue<TreeNode> level = new LinkedList<>();
+    int mostLeft = 0;
+    level.offer(root);
+    nodeToCol.put(root, 0);
+    while (!level.isEmpty()) {
+        TreeNode node = level.poll();
+        int curCol = nodeToCol.get(node);
+        mostLeft = Math.min(mostLeft, curCol);
+        if (!colToVertical.containsKey(curCol)) {
+            colToVertical.put(curCol, new ArrayList<Integer>());
+        }
+        colToVertical.get(curCol).add(node.val);
+        if (node.left != null) {
+            level.offer(node.left);
+            nodeToCol.put(node.left, curCol - 1);
+        }
+        if (node.right != null) {
+            level.offer(node.right);
+            nodeToCol.put(node.right, curCol + 1);
+        }
+    }
+    while (colToVertical.containsKey(mostLeft)) {
+        result.add(colToVertical.get(mostLeft++));
+    }
+    return result;
+  }
+
+  // No hashMap
+  private void explore(TreeNode root, List<List<Integer>> result) {
+      if (root == null) {
+          return;
+      }
+      List<List<Integer>> pos = new ArrayList<>();
+      List<List<Integer>> neg = new ArrayList<>();
+      Queue<Pair> level = new LinkedList<>();
+      level.offer(new Pair(root, 0));
+      while (!level.isEmpty()) {
+          Pair pair = level.poll();
+          TreeNode node = pair.node;
+          if (pair.index >= 0) {
+              insert(pos, pair.index, node);
+          }
+          else {
+              insert(neg, -pair.index - 1, node);
+          }
+          if (node.left != null) {
+              level.offer(new Pair(node.left, pair.index - 1));
+          }
+          if (node.right != null) {
+              level.offer(new Pair(node.right, pair.index + 1));
+          }
+      }
+      for (int i = neg.size() - 1; i >= 0; i--) {
+          result.add(neg.get(i));
+      }
+      result.addAll(pos);
+  }
+
+  private void insert(List<List<Integer>> list, int index, TreeNode node) {
+      if (index == list.size()) {
+          list.add(new ArrayList<Integer>());
+      }
+      list.get(index).add(node.val);
+  }
+  class Pair {
+      TreeNode node;
+      int index;
+      public Pair(TreeNode node, int index) {
+          this.node = node;
+          this.index = index;
+      }
+  }
+
+
+  }
