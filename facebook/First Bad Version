@@ -22,9 +22,11 @@ public class Solution extends VersionControl {
 follow up: what if you don't know how many versions you have?
 
 public int badVersion {
-    int prev = 0;
-    int cur = 0;
-    while (isBadVersioin(cur)) {
+    if(isBadVersioin(1)) return 1;
+    
+    int prev = 1;
+    int cur = 2;
+    while (!isBadVersioin(cur)) {
         prev = cur;
         cur = cur * cur;
     }
