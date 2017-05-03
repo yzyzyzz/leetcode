@@ -25,3 +25,30 @@ public class Solution {
         return res;
     }
 }
+
+
+public class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if (p.right != null) {
+            return findLeftMost(p.right);
+        }
+        else {
+            TreeNode suc = null;
+            while (root != p) {
+                if (root.val < p.val)
+                    root = root.right;
+                else if (root.val > p.val) {
+                    suc = root;
+                    root = root.left;
+                }
+            }
+            return suc;
+        }
+    }
+    public TreeNode findLeftMost(TreeNode root) {
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+}
