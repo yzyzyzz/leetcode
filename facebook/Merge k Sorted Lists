@@ -11,6 +11,40 @@ Merge k sorted linked lists and return it as one sorted list. Analyze and descri
  */
 public class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) return null;
+        return mergeKLists(lists, 0, lists.length - 1);
+    }
+    
+    public ListNode mergeKLists(ListNode[] lists, int start, int end) {
+        if(start == end) return lists[start];
+        int mid = start + (end - start) / 2;
+        ListNode left = mergeKLists(lists, start, mid);
+        ListNode right = mergeKLists(lists, mid + 1, end);
+        return merge(left, right);
+    }
+    
+    public ListNode merge(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while(l1 != null && l2 != null) {
+            if(l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        if(l1 == null) cur.next = l2;
+        else cur.next = l1;
+        return dummy.next;
+    }
+} 
+ 
+ 
+public class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
         if(lists.length == 0) return null;
         //min heap
         PriorityQueue<ListNode> pq=new PriorityQueue<ListNode>(11,new Comparator<ListNode>(){
@@ -19,11 +53,11 @@ public class Solution {
             }
         });
         ListNode dummy = new ListNode(0);
-        for(int i=0;i<lists.length;i++) {
-            if(lists[i]!=null) pq.add(lists[i]);
+        for(int i = 0; i < lists.length ; i++) {
+            if(lists[i] != null) pq.add(lists[i]);
         }
         ListNode node = dummy;
-        while(pq.peek()!=null) {
+        while(!pq.isEmpty()) {
             node.next = pq.poll();
             node = node.next;
             if(node.next != null) pq.add(node.next);
