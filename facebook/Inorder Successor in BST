@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if(root == null) return null;
+        TreeNode res = null;
+        while(root != null) {
+            // 如果是小于等于的值，就要往右移动
+            if(root.val <= p.val) {
+                root = root.right;
+            }
+            // 比root大的值都可能是successor，所以要保留
+            else {
+                res = root;
+                root = root.left;
+            }
+        }
+        return res;
+    }
+}
