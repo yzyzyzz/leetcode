@@ -7,8 +7,6 @@ s = "catsanddog",
 dict = ["cat", "cats", "and", "sand", "dog"].
 
 A solution is ["cats and dog", "cat sand dog"].
-
-// 3.11
 public class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
         boolean[] canBreak = new boolean[s.length() + 1];
@@ -37,16 +35,12 @@ public class Solution {
             res.add(sb.toString());
             return;
         }
-    
-        // canBreak[i]和canBreak[j]都是true不代表i-j就是结果
-        // 比如 abcdefgx ["abcde", "abcd", "efgx"]
-        // 
-        for(int i = index; i > 0; i--) {
-            // if(!canBreak[i]) continue;
-            String rightString = s.substring(i - 1, index);
-            if(!wordDict.contains(rightString)) continue;
+
+        for(int i = index - 1; i >= 0; i--) {
+            String rightString = s.substring(i, index);
+            if(!canBreak[i] || !wordDict.contains(rightString)) continue;
             list.add(rightString);
-            dfs(res, s, wordDict, list, canBreak, i - 1);
+            dfs(res, s, wordDict, list, canBreak, i);
             list.remove(list.size() - 1);
         }
     }
