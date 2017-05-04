@@ -1,0 +1,46 @@
+public class Solution {
+   public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        Map<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<>();
+        return cloneNode(node, map);
+    }
+    private UndirectedGraphNode cloneNode(UndirectedGraphNode node, Map<UndirectedGraphNode, UndirectedGraphNode> map) {
+        if (node == null) return node;
+        if (map.containsKey(node)) {
+            return map.get(node);
+        } else {
+            UndirectedGraphNode nodeCopy = new UndirectedGraphNode(node.label);
+            map.put(node, nodeCopy);
+            for (UndirectedGraphNode child : node.neighbors) {
+                nodeCopy.neighbors.add(cloneNode(child, map));
+            }
+            return nodeCopy;
+        }
+    }
+}
+
+
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        
+        if(node == null) return null;
+        Map<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+        Queue<UndirectedGraphNode> q = new LinkedList<UndirectedGraphNode>();
+        q.offer(node);
+        map.put(node, new UndirectedGraphNode(node.label));
+        
+        while(!q.isEmpty())
+        {
+            UndirectedGraphNode cur = q.poll();
+            for(UndirectedGraphNode neighbor : cur.neighbors )
+            {
+                if(!map.containsKey(neighbor)) 
+                {
+                    map.put(neighbor, new UndirectedGraphNode(neighbor.label));
+                    q.add(neighbor);
+                }
+                map.get(cur).neighbors.add(map.get(neighbor));
+            }
+        }
+        return map.get(node);
+    }
+}
