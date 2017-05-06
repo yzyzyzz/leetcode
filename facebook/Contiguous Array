@@ -1,0 +1,31 @@
+Total Accepted: 6933
+Total Submissions: 19052
+Difficulty: Medium
+Contributors:
+bishwa
+Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.
+
+Example 1:
+Input: [0,1]
+Output: 2
+Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.
+Example 2:
+Input: [0,1,0]
+Output: 2
+Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+
+
+public class Solution {
+    public int findMaxLength(int[] nums) {
+        Map<Integer, Integer> map = new HashMap();
+        int sum = 0, max = 0;
+        map.put(0, -1);
+        for(int i = 0; i < nums.length; i++) {
+            sum += nums[i] == 0 ? -1 : 1;
+            int j = map.getOrDefault(sum, i);
+            max = Math.max(max, i - j);
+            map.putIfAbsent(sum, i);
+        }
+        return max;
+    }
+}
