@@ -30,3 +30,30 @@ public class Solution {
         return left + right;
     }
 }
+
+
+public class Solution {
+    Stack<TreeNode> s=new Stack<TreeNode>();
+     int sum=0;
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root==null) return 0;
+        pushLeft(root);
+        while(!s.empty()){
+            TreeNode node=s.pop();
+            if(node.right!=null)
+                pushLeft(node.right);
+        }
+        return sum;
+    }
+    private void pushLeft(TreeNode root){
+        TreeNode node=root;
+        while(node!=null){
+            s.push(node);
+            //判断是否为左叶子节点
+            if(node.left!=null&&node.left.left==null&&node.left.right==null)
+                sum+=node.left.val;
+            node=node.left;
+            
+        }
+    }
+}
