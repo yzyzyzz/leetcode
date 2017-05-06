@@ -1,0 +1,19 @@
+public class Solution {
+    public int hIndex(int[] citations) {
+        if(citations == null || citations.length == 0)  return 0;
+        // binary search, find 1st c[i] >= n - i
+        int n = citations.length;
+        int l = 0, r = n - 1;
+        while(l + 1 < r) {
+            int mid = l + (r - l) / 2;
+            int val = citations[mid];
+            if(val == n - mid) return n - mid;
+            else if(val < n - mid) l = mid;
+            else r = mid;
+        }
+        
+        if(citations[l] >= n - l) return n - l;
+        if(citations[r] >= n - r) return n - r;
+        return 0;
+    }
+}
