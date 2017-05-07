@@ -1,0 +1,33 @@
+Given a singly linked list, determine if it is a palindrome.
+
+Follow up:
+Could you do it in O(n) time and O(1) space?
+
+public class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode newHead = getReverse(head);
+        ListNode w = head;
+        while(w != null && w.next != null)
+        {
+            // only need to check half
+            w = w.next.next;
+            if(head. val != newHead.val) return false;
+            head = head.next;
+            newHead = newHead.next;
+        }
+        return true;
+    }
+    
+    public ListNode getReverse(ListNode head)
+    {
+        ListNode tail = null;
+        while(head != null)
+        {
+            ListNode newNode = new ListNode(head.val);
+            newNode.next = tail;
+            tail = newNode;
+            head = head.next;
+        }
+        return tail;
+    }   
+}
