@@ -1,0 +1,54 @@
+Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+
+k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
+
+You may not alter the values in the nodes, only nodes itself may be changed.
+
+Only constant memory is allowed.
+
+For example,
+Given this linked list: 1->2->3->4->5
+
+For k = 2, you should return: 2->1->4->3->5
+
+For k = 3, you should return: 3->2->1->4->5
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int i = 1;
+        while (head != null) {
+            if (i % k == 0) {                   //对应第i个结点的head如果是k的倍数
+                pre = reverse(pre, head.next);  //pre移动到了reverse后的last处  
+                                                //即原先head的位置，第i位
+                head = pre.next;                //所以这里head等于原先位置右移1位
+            }
+            else head = head.next;              //否则head前进至下一个结点
+            i++;
+        }
+        return dummy.next;
+    }
+    public ListNode reverse(ListNode pre, ListNode next){
+        ListNode last = pre.next;   //pre--> last--> cur
+        ListNode cur = last.next;   //pre即dummy，last即head，值都不会变
+        while (cur != next) {
+            last.next = cur.next;   //last指向cur的下一个结点
+            cur.next = pre.next;    //cur指向pre.next
+            pre.next = cur;         //把cur放入pre后面
+            cur = last.next;        //而last永远是cur的前一个结点
+        }
+        return last;
+    }    
+    
+}
