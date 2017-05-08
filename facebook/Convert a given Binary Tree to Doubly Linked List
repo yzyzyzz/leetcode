@@ -1,0 +1,60 @@
+public TreeNode convert2(TreeNode root) {
+        if (root == null) {return root;}
+        TreeNode[] convert = convert2Helper(root);
+        convert[0].left = convert[1];
+        convert[1].right = convert[0];
+        return convert[0];
+    }
+
+    public TreeNode[] convert2Helper(TreeNode root) {
+        TreeNode[] left = root.left == null ? null : convert2Helper(root.left);
+        TreeNode[] right = root.right == null ? null : convert2Helper(root.right);
+
+        TreeNode head = left == null ? root : left[0];
+        TreeNode tail = right == null ? root : right[1];
+
+        if (left != null) {
+            left[1].right = root;
+            root.left = left[1];
+        }
+        if (right != null) {
+            right[0].left = root;
+            root.right = right[0];
+        }
+        return new TreeNode[]{head, tail};
+    }
+    
+    
+    
+    Node head;
+      
+    // Initialize previously visited node as NULL. This is
+    // static so that the same value is accessible in all recursive
+    // calls
+    static Node prev = null;
+  
+    // A simple recursive function to convert a given Binary tree 
+    // to Doubly Linked List
+    // root --> Root of Binary Tree
+    void BinaryTree2DoubleLinkedList(Node root) 
+    {
+        // Base case
+        if (root == null)
+            return;
+  
+        // Recursively convert left subtree
+        BinaryTree2DoubleLinkedList(root.left);
+  
+        // Now convert this node
+        if (prev == null) 
+            head = root;
+        else
+        {
+            root.left = prev;
+            prev.right = root;
+        }
+        prev = root;
+  
+        // Finally convert right subtree
+        BinaryTree2DoubleLinkedList(root.right);
+    }
