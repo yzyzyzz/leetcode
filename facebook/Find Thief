@@ -1,0 +1,26 @@
+class FindTheaf {
+    public boolean findTheaf(int rooms, int[] strategy) {
+        boolean[] found = new boolean[rooms];
+        found[strategy[0]] = true;
+        for (int day = 1; day < strategy.length; day++) {
+            boolean[] lastDay = Arrays.copyOf(found, rooms);
+            for (int room = 0; room < rooms; room++) {
+                if (room == 0) {
+                    found[room] = lastDay[room + 1];
+                }
+                else if (room == rooms - 1) {
+                    found[room] = lastDay[room - 1];
+                }
+                else {
+                    found[room] = lastDay[room - 1] || lastDay[room + 1];
+                }
+            }
+            found[strategy[day]] = true;
+        }
+        boolean result = true;
+        for (int i = 0; i < rooms; i++) {
+            result = result && found[i];
+        }
+        return result;
+    }
+}
